@@ -1,0 +1,13 @@
+This file is part of the "Moonbase Tranquility" project.
+
+These files, and the compiled images, are not yet for the public domain; you may
+not redistribute them and/or modify them. This project is currently in an on going
+development phase by its author and has, as yet, not been publicly distributed.
+Development of this project has been at the sole cost in both time and funding by its
+author. Until such a public release is made the author retains ALL RIGHTS to this data.
+It is expected that if and when the images are deemed releasable they will be released
+under a license for non-commercial, such as GNU or Creative Commons.
+
+This project exists at the present time WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. As you are not supposed
+to be in possession of this file if you use it, you use this code AT YOUR OWN RISK.

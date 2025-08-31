@@ -37,12 +37,12 @@ bl_info = {
     'name'        : 'POVRAY Mesh2 (wrapper)',
     'author'      : 'Stephen Soliday',
     'version'     : (1, 0, 3),
-    'blender'     : (2, 91, 2),
+    'blender'     : (4, 5, 2),
     'location'    : 'File > Import/Export',
     'description' : 'Export PovRay Mesh2 (.inc)',
     'warning'     : '',
     'doc_url'     : '{BLENDER_MANUAL_URL}/addons/import_export/povray_mesh.html',
-    'support'     : 'TESTING',
+    'support'     : 'COMMUNITY',
     'category'    : 'Import-Export',
 }
 #/ =======================================================================================
@@ -87,48 +87,47 @@ logger = TLogger.getInstance()
 class ExportOBJW(bpy.types.Operator, ExportHelper):
     #/ -----------------------------------------------------------------------------------
     """Save a PovRay File"""
-    
+
     logger.info( 'Enter class ExportPOVRAY' )
-    
+
     bl_idname  = "export_scene.povray"
     bl_label   = 'Export INC'
     bl_options = {'PRESET'}
-    
+
     filename_ext = ".inc"
     filter_glob: StringProperty(
         default="*.inc;*.pov",
         options={'HIDDEN'},
     )
-    
-    
+
+
     #/ ----- add to include --------------------------------------------------------------
-    
+
     use_materials: BoolProperty(
         name        = "Include Texture Section",
         description = "False: mesh2 without texture",
         default     = True,
     )
-    
+
     use_seaprate_files: BoolProperty(
         name        = "Separate texture (.inc)",
         description = "Place textures in separate file *_texture.inc",
         default     = False,
     )
-    
+
     use_license: BoolProperty(
         name        = "Include License",
         description = "Include a license in the header",
         default     = True,
     )
-    
+
     #/ ----- keep these in include -------------------------------------------------------
-    
+
     use_selection: BoolProperty(
         name        = "Selection Only",
         description = "Export selected objects only",
         default     = False,
     )
-    
 
     #/ ----- keep these in transform -----------------------------------------------------
 
@@ -139,9 +138,6 @@ class ExportOBJW(bpy.types.Operator, ExportHelper):
         default = 1.0,
     )
 
-
-
-
     #/ ----- keep these in geometry ------------------------------------------------------
 
     use_normals: BoolProperty(
@@ -150,15 +146,12 @@ class ExportOBJW(bpy.types.Operator, ExportHelper):
         "to represent flat faces and sharp edges",
         default     = True,
     )
-    
+
     use_uvs: BoolProperty(
         name="Include UVs",
         description="Write out the active UV coordinates",
         default=True,
     )
-
-
-
 
     #/ ----- remove from include display -------------------------------------------------
 
@@ -167,7 +160,7 @@ class ExportOBJW(bpy.types.Operator, ExportHelper):
         description = "Export Blender objects as PovRay meshes",
         default     = True,
     )
-    
+
     group_by_object: BoolProperty(
         name="PovRay Meshes",
         description="Export Blender objects as PovRay meshes",
@@ -192,12 +185,7 @@ class ExportOBJW(bpy.types.Operator, ExportHelper):
         default=True,
     )
 
-
-
-
     #/ ----- remove from transform display -----------------------------------------------
-
-
 
 
     #/ ----- remove from geometry display ------------------------------------------------
@@ -207,7 +195,7 @@ class ExportOBJW(bpy.types.Operator, ExportHelper):
         description="Apply modifiers",
         default=True,
     )
-    
+
     # Non working in Blender 2.8 currently.
     # ~ use_mesh_modifiers_render: BoolProperty(
             # ~ name="Use Modifiers Render Settings",
@@ -233,26 +221,26 @@ class ExportOBJW(bpy.types.Operator, ExportHelper):
         description="Convert all faces to triangles",
         default=True,
     )
-    
+
     use_nurbs: BoolProperty(
         name="Write Nurbs",
         description="Write nurbs curves as PovRay nurbs rather than "
         "converting to geometry",
         default=False,
     )
-    
+
     use_vertex_groups: BoolProperty(
         name="Polygroups",
         description="",
         default=False,
     )
-    
+
     keep_vertex_order: BoolProperty(
         name="Keep Vertex Order",
         description="",
         default=False,
     )
-    
+
     path_mode: path_reference_mode
 
     check_extension = True
@@ -262,7 +250,7 @@ class ExportOBJW(bpy.types.Operator, ExportHelper):
         #/ -------------------------------------------------------------------------------
 
         logger.info( 'execute IO_MESH_POV::Mesh2 wrapper' )
-        
+
         from . import export_obj
         from . import convert_obj_to_mesh2
 
@@ -299,15 +287,14 @@ class ExportOBJW(bpy.types.Operator, ExportHelper):
         temp_file = '%s%stmp%04d%03d_%02d%02d%02d.obj' % ( user_path, os.sep,
             now.tm_year, now.tm_yday, now.tm_hour, now.tm_min, now.tm_sec, )
 
-        
         keywords['filepath'] = temp_file
-        
+
         rv = export_obj.save(context, **keywords)
 
         #/ -------------------------------------------------------------------------------
 
         keywords = self.as_keywords()
-    
+
         include_textures      = keywords['use_materials']
         separate_texture_file = keywords['use_seaprate_files']
         put_license_in_header = keywords['use_license']
@@ -475,7 +462,7 @@ def register():
 
     logger.info( 'Registered: PovRay Mesh2 Exporter (wrapper)' )
 
-    
+
 #/ =======================================================================================
 def unregister():
     #/ -----------------------------------------------------------------------------------
@@ -486,7 +473,7 @@ def unregister():
 
     logger.info( 'Un-registered: PovRay Mesh2 Exporter (wrapper)' )
 
-    
+
 #/ =======================================================================================
 if __name__ == "__main__": register()
 #/ =======================================================================================

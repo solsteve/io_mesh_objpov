@@ -42,7 +42,7 @@ def parseVertex( mask ):
     pnt = None
     nrm = None
     tex = None
-    
+
     if ( 0 < c ):
         pnt = int(x[0])
         if ( 1 > pnt ):
@@ -58,7 +58,7 @@ def parseVertex( mask ):
         if ( 1 > nrm ):
             sys.stderr.write( '\nUnsupported: negative index - normal [%s]' % (x[2],) )
             raise ValueError
-        
+
     return (pnt,nrm,tex)
 
 #/ =======================================================================================
@@ -83,7 +83,7 @@ def parseWavefrontObject( objFile ):
     for raw in fp:
         line += 1
         code = raw[0:2]
-        
+
         #/ ----- new object --------------------------------------------------------------
         if ( 'o ' == code ):
             if ( None != obj ):
@@ -136,7 +136,7 @@ def parseWavefrontObject( objFile ):
                                       ( line, objFile, ) )
                     fp.close()
                     return (None, None, None)
-                
+
             #/ ----- four point face -----------------------------------------------------
             elif ( 4 == len(V) ):
                 try:
@@ -163,35 +163,35 @@ def parseWavefrontObject( objFile ):
             sys.stderr.write( '\nUnsupported: Texture vertices found at ' +
                               'line %d of %s\n\n' % ( line, objFile, ) )
             return (None, None, None)
-            
+
         if ( 'p ' == code ):
             sys.stderr.write( '\nUnsupported: Point found at line %d ' +
                               'of %s\n\n' % ( line, objFile, ) )
             return (None, None, None)
-            
+
         if ( 'l ' == code ):
             sys.stderr.write( '\nUnsupported: Line found at line %d ' +
                               'of %s\n\n' % ( line, objFile, ) )
             return (None, None, None)
-            
+
         if ( 'g ' == code ):
             sys.stderr.write( '\nUnsupported: Group found at line %d ' +
                               'of %s\n\n' % ( line, objFile, ) )
             return (None, None, None)
-            
+
     if ( None != obj ):
         data.append( obj )
-        
+
     fp.close()
-    
+
     return (data,master_vert,master_norm)
-    
+
 #/ =======================================================================================
 def buildMap( face, col ):
     #/ -----------------------------------------------------------------------------------
     map = {}
     idx = 0
-    
+
     for f in face:
         A  = f[0]
         B  = f[1]
@@ -200,7 +200,7 @@ def buildMap( face, col ):
         av = A[col]
         bv = B[col]
         cv = C[col]
-        
+
         if ( not map.has_key(av) ):
             map[av] = idx
             idx += 1
@@ -224,7 +224,7 @@ def buildMap( face, col ):
 def createMesh2( fp, name, face, vert, norm ):
     #/ -----------------------------------------------------------------------------------
     sys.stderr.write( '  Building %s\n' % (name,) )
-    
+
     vmap, vrev = buildMap( face, 0 )
     nmap, nrev = buildMap( face, 1 )
 
@@ -270,7 +270,7 @@ def createMesh2( fp, name, face, vert, norm ):
 
     fp.write( '}\n\n' )
 
-    
+
 #/ =======================================================================================
 def buildPovRayMesh( povFile, data, vert, norm ):
     #/ -----------------------------------------------------------------------------------
@@ -304,15 +304,15 @@ def buildTestRaw( rawFile, data, vert, norm ):
             xa = vert[A[0]][0]
             ya = vert[A[0]][1]
             za = vert[A[0]][2]
-            
+
             xb = vert[B[0]][0]
             yb = vert[B[0]][1]
             zb = vert[B[0]][2]
-            
+
             xc = vert[C[0]][0]
             yc = vert[C[0]][1]
             zc = vert[C[0]][2]
-            
+
             fp.write( '%.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f %.6f\n' %
                       ( xa, ya, za, xb, yb, zb, xc, yc, zc, ) )
 
@@ -330,10 +330,10 @@ def process( objFile, povFile ):
         return 1
 
     buildTestRaw( 'test.raw', data, vert, norm )
-    
+
     return buildPovRayMesh( povFile, data, vert, norm )
 
-    
+
 #/ =======================================================================================
 def usage( pn, msg=None ):
     #/ -----------------------------------------------------------------------------------
@@ -351,7 +351,7 @@ USAGE: %s input.obj output.pov
 Example: %s BAxis.obj btest.inc
 
 """ % ( pn, pn, ) )
-    
+
     return 1
 
 
@@ -362,15 +362,15 @@ def main( argc, argv ):
     sys.stderr.write( '\n======================================================' )
     sys.stderr.write( '\nOBJ2POV * Convert Wavefront OBJ to PovRay Mesh2 * 2019' )
     sys.stderr.write( '\n------------------------------------------------------\n' )
-    
+
     if ( 3 != argc ):
         return usage( argv[0], 'missing arguments' )
 
-    return process( argv[1], argv[2] ) 
+    return process( argv[1], argv[2] )
 
 
 #/ =======================================================================================
-if ( '__main__' == __name__ ): sys.exit( main( len(sys.argv), sys.argv ) ) 
+if ( '__main__' == __name__ ): sys.exit( main( len(sys.argv), sys.argv ) )
 #/ =======================================================================================
 #/ **                                   O B J 2 P O V                                   **
 #/ =========================================================================== END FILE ==
@@ -379,4 +379,4 @@ if ( '__main__' == __name__ ): sys.exit( main( len(sys.argv), sys.argv ) )
 #  -Z  -Y rev all
 #   Z   Y rev X
 #  -Z   Y rev Y
-# 
+#

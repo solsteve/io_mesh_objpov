@@ -77,7 +77,7 @@ class Mesh:
         self.materials.append( NameOf( name ) )
         self.materials_index += 1
         return self.materials_index
-        
+
 
     #/ ===================================================================================
     def write( self, fp, mat ):
@@ -90,13 +90,13 @@ class Mesh:
 
         if ( has_image ):
             print( "one of the %d textures is an image" % ( len(self.materials), ) )
-        
+
         fp.write('// =======================================================================================\n' )
         fp.write( '#declare %s = mesh2 {\n' % ( self.name, ) )
         fp.write('  // -------------------------------------------------------------------------------------\n' )
 
         #/ ----- write vectors -----------------------------------------------
-        
+
         fp.write( '  vertex_vectors {\n    %d,\n' % (len(self.vertex),) )
         for i in range(len(self.vertex)):
             x = self.vertex[i][0]
@@ -129,9 +129,9 @@ class Mesh:
             for mat_key in self.materials:
                 fp.write( '    texture { %s }\n' % (mat[mat_key].name,) )
             fp.write( '  }\n\n' )
-        
+
         #/ ----- write indices -----------------------------------------------
-        
+
 
         fp.write( '  face_indices {\n    %d,\n' % (len(self.face),) )
 
@@ -151,10 +151,6 @@ class Mesh:
 
         fp.write( '  }\n\n' )
 
-
-
-
-        
         fp.write( '  normal_indices {\n    %d,\n' % (len(self.face),) )
         for i in range(len(self.face)):
             v0 = self.face[i]['n'][0]
@@ -213,13 +209,11 @@ class Material:
         self.uvimage      = None
         self.model        = 0
 
-        
     #/ ===================================================================================
     def isImage( self ):
         #/ -------------------------------------------------------------------------------
         return ( None != self.uvimage )
 
-    
     #/ ===================================================================================
     def write( self, fp, local=False ):
         #/ -------------------------------------------------------------------------------
@@ -238,12 +232,11 @@ class Material:
             fp.write('  }\n')
 
         else:
-    
             fp.write( '  pigment {\n' )
             fp.write( '  color rgb <%f,%f,%f>\n' % (
                 self.difuse[0], self.difuse[1], self.difuse[2], ) )
             fp.write( '  }\n' )
-        
+
         fp.write( '} // end texture %s\n\n' % (self.name,) )
 
 #/ =======================================================================================
@@ -251,11 +244,11 @@ def ParseMaterialFile( mtr_filename, mat_dict ):
     #/ -----------------------------------------------------------------------------------
     #/ https://en.wikipedia.org/wiki/Wavefront_.obj_file
     #/ -----------------------------------------------------------------------------------
-        
+
     fp = open( mtr_filename, 'r' )
 
     mat = None
-    
+
     for raw in fp:
         line = raw.strip().split()
         if ( 0 < len(line) ):
@@ -263,13 +256,13 @@ def ParseMaterialFile( mtr_filename, mat_dict ):
             if ( 'newmtl' == key ):
                 mat = Material( line[1] )
                 mat_dict[ mat.name ] = mat
-            
+
             elif ( 'Ka' == key ): #/ Ambient color
                 mat.ambient = RGB( line[1:4] )
-                
+
             elif ( 'Kd' == key ): #/ Difuse color
                 mat.difuse = RGB( line[1:4] )
-                
+
             elif ( 'Ks' == key ): #/ Specular color
                 mat.specular = RGB( line[1:4] )
 
@@ -278,7 +271,7 @@ def ParseMaterialFile( mtr_filename, mat_dict ):
 
             elif ( 'd' == key ): #/ opaqueness
                 mat.opaque = float( line[1] )
-            
+
             elif ( 'Tr' == key ): #/ transparent
                  mat.opaque = 1.0 - float( line[1] )
 
@@ -316,7 +309,7 @@ def DisplayLicense( fp ):
     import os
 
     dir = os.sep.join( __file__.split( os.sep )[:-1] )
-    
+
     fspc = '%s/license.txt' % (dir,)
 
     try:
@@ -343,7 +336,7 @@ def PovRayHeader( fp, show=False ):
     fp.write("""//
 // Created by: Blender AddOn: io_mesh_povray
 // Date:       %s
-// 
+//
 // =======================================================================================
 """ % (time.asctime(tm),) )
 
@@ -358,9 +351,6 @@ def PovRayTrailer(fp):
 def Separator(fp):
     #/ -----------------------------------------------------------------------------------
     fp.write('// =======================================================================================\n' )
-
-
-
 
 
 #/ =======================================================================================
@@ -386,8 +376,6 @@ def MakeTextureFile( inc_filename, materials, show=False ):
     return mat_filename.split(os.sep)[-1]
 
 
-
-    
 #/ =======================================================================================
 def ConvertObj2Mesh2( obj_filename, inc_filename,
                       use_textures      = True,
@@ -463,19 +451,19 @@ def ConvertObj2Mesh2( obj_filename, inc_filename,
                 A = line[1].split('/')
                 B = line[2].split('/')
                 C = line[3].split('/')
-                
+
                 v1 = int(A[0]) - last_vertex - 1
                 t1 = int(A[1]) - last_uv - 1
                 n1 = int(A[2]) - last_normal - 1
-                
+
                 v2 = int(B[0]) - last_vertex - 1
                 t2 = int(B[1]) - last_uv - 1
                 n2 = int(B[2]) - last_normal - 1
-                
+
                 v3 = int(C[0]) - last_vertex - 1
                 t3 = int(C[1]) - last_uv - 1
                 n3 = int(C[2]) - last_normal - 1
-                
+
                 mesh.face.append( { 'v':[v1,v2,v3],
                                     't':[t1,t2,t3],
                                     'n':[n1,n2,n3],
@@ -487,20 +475,20 @@ def ConvertObj2Mesh2( obj_filename, inc_filename,
                     mesh.smooth = True
             else:
                 pass
-            
+
     fp.close()
 
     #/ -----------------------------------------------------------------------------------
 
     short_name = inc_filename.split(os.sep)[-1].split('.')[0]
-    
+
     fp = open( inc_filename, 'w' )
 
     PovRayHeader( fp, show=include_license )
 
     fp.write( '//\n// Objects:\n' )
     for o in obj:
-        fp.write( '//    %s\n' % ( o.name, ) ) 
+        fp.write( '//    %s\n' % ( o.name, ) )
     fp.write( '//\n' )
     Separator(fp)
 
@@ -519,24 +507,22 @@ def ConvertObj2Mesh2( obj_filename, inc_filename,
 
     fp.write( '\n#declare %s = union {\n' % ( short_name, ) )
     for o in obj:
-        fp.write( '  object { %s }\n' % ( o.name, ) ) 
-    
+        fp.write( '  object { %s }\n' % ( o.name, ) )
+
     fp.write( '} // end union %s\n' % ( short_name, ) )
 
     PovRayTrailer( fp )
 
     fp.close()
-    
+
     logger.info( '    Temp file:    %s' % ( obj_filename, ) )
     logger.info( '    PovRay file:  %s' % ( inc_filename, ) )
 
     logger.info( '    Objects:' )
     for o in obj:
-        logger.info( '       %s' % ( o.name, ) ) 
-    
+        logger.info( '       %s' % ( o.name, ) )
+
     return 0
-
-
 
 
 

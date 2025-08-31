@@ -97,7 +97,7 @@ class getInstance:
             self.abort_handler = AbortHandler( )
             self.flag = True
 
-            self.code = { 0:UNSET,    'UNSET':    UNSET, 
+            self.code = { 0:UNSET,    'UNSET':    UNSET,
                           1:CRITICAL, 'CRITICAL': CRITICAL,
                           2:ERROR,    'ERROR':    ERROR,
                           3:WARNING,  'WARNING':  WARNING,

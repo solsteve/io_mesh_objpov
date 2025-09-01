@@ -3,7 +3,7 @@
 ## Export Blender 4.5.1 LTS UV Mesh to Povray 3.7 mesh2 files
 
 ### Install
-Create a symbolic link in the top level directory. In this example I have Blender installed locally at **$HOME/Apps/blender-3.1.2-linux-x64**
+Create a symbolic link in the top level directory. In this example I have Blender installed locally at **${HOME}/Apps/blender-4.5.2-linux-x64**
 
     cd io_mesh_objpov
     ln -s ${HOME}/Apps/blender-4.5.2-linux-x64/4.5/scripts/addons_core addon

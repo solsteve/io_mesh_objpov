@@ -44,7 +44,9 @@ distclean: fullclean
 	@echo Done $@
 
 install:
-	/bin/cp -f *.py ../addon
+	mkdir -p ../addon/io_mesh_objpov
+	/bin/cp -f *.py  ../addon/io_mesh_objpov
+	/bin/cp -f *.txt ../addon/io_mesh_objpov
 
 #/ =======================================================================================
 #/ **                                  M A K E F I L E                                  **

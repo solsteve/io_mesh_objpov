@@ -10,6 +10,6 @@ Create a symbolic link in the top level directory. In this example I have Blende
     make install
     make distclean
     cd ..
-Next open blender and navigate to **Edit->Preferences->Add-ons->Testing** select [x]*Import-Export POVRAY Mesh2 (wrapper)*
+Next open blender and navigate to **Edit->Preferences->Add-ons** select [x]*POVRAY Mesh2 (wrapper)*
 
-It is best to save ***selected*** meshes instead of combining them in one file. I like to save my materials in a separate file, as well.
+I find it best best to save ***selected*** meshes instead of combining them in one file. I like to save my materials in a separate file, as well.
